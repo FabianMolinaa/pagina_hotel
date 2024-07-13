@@ -1,0 +1,149 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+.h3{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-left: 25px;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/42/ed/34/piscina.jpg?w=1200&h=-1&s=1");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
+    z-index: -1; /* Asegúrate de que el fondo esté detrás del contenido */
+}
+/* Estilo para la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid blue;
+    padding: 10px 0;
+    margin-bottom: 5px;
+}
+
+.navbar a {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: inline-table;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    transition: 0.3s;
+
+}
+.navbar a:hover {
+    color: blue;
+}
+
+/* Estilo para las tarjetas de tours */
+.filterDiv {
+    background-color: #ffffff;
+    width: 500px;
+    height: 500px;
+    text-align: center;
+    color: #333;
+    font-size: 20px;
+    margin: 10px;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filterDiv img {
+    width: 100%;
+    height: 70%;
+    margin-block-end: 25px;
+}
+
+/* Mostrar las tarjetas filtradas */
+.show {
+    display: block;
+}
+
+/* Estilo para el contenedor de tarjetas */
+.containerr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 70px;
+    padding: 20px;
+}
+
+/* Estilo para los botones de filtro */
+.btn1 {
+    border: none;
+    outline: none;
+    padding: 2px 30px;
+    cursor: pointer;
+    width: 300px;
+}
+
+.btn1:hover {
+    color: blue;
+}
+
+.btn1.active {
+    color: blue;
+}
+
+/* Estilo para el encabezado */
+.header {
+    position: relative;
+    text-align: center;
+    color: white;
+    margin-block-end: 50px;
+}
+
+.header .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.header h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 80px;
+    text-shadow: #1a1a1a;
+    margin: 0;
+}
+/* Contenedor de relación de aspecto */
+.aspect-ratio-container {
+    position: relative;
+    padding-bottom: 4.04%; /* Relación de aspecto 1120:90 */
+}
+.aspect-ratio-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/*------------------------------------------*/
+/*Dimensiones para celular*/
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 40px; /* Reduce el tamaño del título para dispositivos móviles */
+    }
+    .aspect-ratio-container{
+        padding-bottom: 12.04%;
+    }
+}

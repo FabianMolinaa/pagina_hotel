@@ -1,0 +1,189 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/42/ed/34/piscina.jpg?w=1200&h=-1&s=1");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
+    z-index: -1; /* Asegúrate de que el fondo esté detrás del contenido */
+}
+/* Estilo para la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid blue;
+    padding: 10px 0;
+    margin-bottom: 5px;
+}
+.navbar a {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: inline-table;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    transition: 0.3s;
+}
+.navbar a:hover {
+    color: blue;
+}
+/* Estilo para el encabezado */
+.header {
+    position: relative;
+    text-align: center;
+    color: white;
+    margin-block-end: 50px;
+}
+.header .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.header h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 80px;
+    text-shadow: #1a1a1a;
+    margin: 0;
+}
+/* Contenedor de relación de aspecto */
+.aspect-ratio-container {
+    position: relative;
+    padding-bottom: 4.04%; /* Relación de aspecto 1120:90 */
+}
+.aspect-ratio-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/*---------------------------------*/
+.content-all{
+    width: 210px;
+    margin: auto;
+    perspective: 1000px;
+    position: relative;
+    margin-top: 50px;
+}
+.content-carrousel{
+    width: 100%;
+    position: absolute;
+    animation: rotar 10s infinite linear;
+    transform-style: preserve-3d;
+}
+.content-carrousel:hover{
+    animation-play-state: paused;
+    cursor: pointer;
+}
+.content-carrousel figure{
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    position: absolute;
+    box-shadow: 0px 0px 20px 0px black;
+    transition: all 300ms;
+}
+.content-carrousel figure:hover{
+    box-shadow: 0px 0px 0px 0px black;
+    transition: all 300ms;
+}
+
+.content-carrousel figure:nth-child(1){transform: rotateY(0deg) translateZ(300px);}
+.content-carrousel figure:nth-child(2){transform: rotateY(40deg) translateZ(300px);}
+.content-carrousel figure:nth-child(3){transform: rotateY(80deg) translateZ(300px);}
+.content-carrousel figure:nth-child(4){transform: rotateY(120deg) translateZ(300px);}
+.content-carrousel figure:nth-child(5){transform: rotateY(160deg) translateZ(300px);}
+.content-carrousel figure:nth-child(6){transform: rotateY(200deg) translateZ(300px);}
+.content-carrousel figure:nth-child(7){transform: rotateY(240deg) translateZ(300px);}
+.content-carrousel figure:nth-child(8){transform: rotateY(280deg) translateZ(300px);}
+.content-carrousel figure:nth-child(9){transform: rotateY(320deg) translateZ(300px);}
+.content-carrousel figure:nth-child(10){transform: rotateY(360deg) translateZ(300px);}
+
+.content-carrousel img{
+    width: 100%;
+    transition: all 300ms;
+}
+.content-carrousel img:hover{
+    transform: scale(1.2);
+    transition: all 300ms;
+}
+@keyframes rotar{
+    from{
+        transform: rotateY(0deg);
+    }to{
+        transform: rotateY(360deg);
+    }
+}
+/*cards*/
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+.card-body{
+    height: 200px;
+}
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+.card-title {
+    font-weight: bold;
+    color: #007bff;
+}
+.card-text {
+    color: #6c757d;
+}
+/*Dimesiones de celular*/
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 40px; /* Reduce el tamaño del título para dispositivos móviles */
+    }
+    .aspect-ratio-container{
+        padding-bottom: 12.04%;
+    }
+    .content-all {
+        width: 150px;
+        max-width: 300px;
+        perspective: 600px;
+    }
+    
+    .content-carrousel figure {
+        width: 62%;
+        height: 60px;
+        left: 10%; /* Center the figures horizontally */
+    }
+    
+    .content-carrousel figure:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(2) { transform: rotateY(36deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(3) { transform: rotateY(72deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(4) { transform: rotateY(108deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(5) { transform: rotateY(144deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(6) { transform: rotateY(180deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(7) { transform: rotateY(216deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(8) { transform: rotateY(252deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(9) { transform: rotateY(288deg) translateZ(150px); }
+    .content-carrousel figure:nth-child(10) { transform: rotateY(324deg) translateZ(150px); }
+}
+    
+
