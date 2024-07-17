@@ -6,9 +6,8 @@
     <title>Inicio</title>
     <!-- Importación de iconos de Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!--CSS-->
-    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/pagina_hotel/static/css/index.css">
     <!--<link rel="stylesheet" href="{% static 'css/index.css' %}">-->
     <!--icon de la pagina-->
     <link rel="website icon" type="png" href="/static/img/logo.png">
@@ -57,5 +56,64 @@
         <h1>HOTEL VERANUM</h1>
     </div>
 </div>
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Santiago')" id="defaultOpen">Santiago</button>
+    <button class="tablinks" onclick="openCity(event, 'Valparaiso')">Valparaiso</button>
+  </div>
+  
+  <div id="Santiago" class="tabcontent">
+    <!--SERVICIOS-->
+    <section id="servicios" class="feature">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                  <i class='bx bx-restaurant' style='color:#000000' ></i>
+                  <h5 class="card-title feature-heading">Restaurante Gourmet</h5>
+                  <p class="card-text">Disfruta de exquisitos platos preparados por nuestros chefs.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                    <i class='bx bxs-spa' style='color:#000000' ></i>
+                  <h5 class="card-title feature-heading">Spa de Lujo</h5>
+                  <p class="card-text">Relájate y rejuvenece con nuestros tratamientos y masajes exclusivos.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                    <i class='bx bx-swim' style='color:#000000' ></i>
+                  <h5 class="card-title feature-heading">Piscina Infinity</h5>
+                  <p class="card-text">Sumérgete en nuestra piscina con vistas panorámicas de la ciudad.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-body">
+                    <i class='bx bx-dumbbell' style='color:#000000' ></i>
+                    <h5 class="card-title feature-heading">Gimnasio</h5>
+                    <p class="card-text">Ponte fuerte como el vinagre en nuestro gimnasio.</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </section>
+  </div>
+  
+  <div id="Valparaiso" class="tabcontent">
+    <h3>Valparaiso</h3>
+    <p>Paris is the capital of France.</p> 
+  </div>
+
+
+<script src="../static/js/index.js"></script>
 </body>
 </html>
