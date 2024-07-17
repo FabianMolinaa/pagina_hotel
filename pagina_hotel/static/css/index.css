@@ -146,4 +146,8 @@ body::before {
   .aspect-ratio-container{
     padding-bottom: 15.04%;
   }
+  .carousel-item img {
+    height: auto; /* Ajusta la altura según tus necesidades */
+    object-fit: cover; /* Mantiene el aspecto de la imagen dentro del contenedor */
+  }
 }
