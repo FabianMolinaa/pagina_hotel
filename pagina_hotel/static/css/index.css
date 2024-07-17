@@ -78,8 +78,6 @@ body::before {
 /*---------------------------------*/
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
   text-align: center; /* Añade esta línea para centrar los botones */
 }
 
@@ -98,7 +96,7 @@ body::before {
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: blue;
 }
 
 /* Create an active/current tablink class */
@@ -134,6 +132,10 @@ body::before {
 }
 .feature-heading {
   margin-bottom: 20px;
+}
+.carousel-item img {
+  height: 600px; /* Ajusta la altura según tus necesidades */
+  object-fit: cover; /* Mantiene el aspecto de la imagen dentro del contenedor */
 }
 
 /*Dimensiones para celular*/
