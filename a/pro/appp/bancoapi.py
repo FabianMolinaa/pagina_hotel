@@ -7,8 +7,8 @@ from datetime import datetime
 # Importación del módulo de expresiones regulares para procesamiento de texto
 import re
 # Creación de una instancia de conexión con la API del BCCH
-# Se autentica con email y RUT (formato: Fxxxxxxx-x)
-siete = bcchapi.Siete("fa.molinao@duocuc.cl", "F21756060-8")
+# Se autentica con email y contraseña
+siete = bcchapi.Siete("fa.molinao@duocuc.cl", "")
 # Obtención de la fecha actual en formato YYYY-MM-DD para usarla en la consulta
 fec = datetime.now().strftime("%Y-%m-%d")
 # Realización de la consulta al BCCH para obtener el tipo de cambio:
