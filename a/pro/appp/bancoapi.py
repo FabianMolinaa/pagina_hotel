@@ -1,5 +1,5 @@
 # Importación de la librería bcchapi para interactuar con la API del Banco Central de Chile
-import bcchapi 
+import bcchapi #(Pip install bcchapi
 # Importación de numpy (aunque no se utiliza en este código, podría ser para futuras operaciones numéricas)
 import numpy as np
 # Importación de datetime para manejo de fechas
