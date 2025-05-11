@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--LOGO DE LA PAGINA-->
+    <link
+      rel="website icon"
+      type="png"
+      href="https://ferremas.com/wp-content/uploads/2023/04/Logoblanco.png"
+    />
+   
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg" style="background-color: #007bff">
+    <!-- logo -->
+    <a class="navbar-brand" href="{% url 'index' %}">
+      <img src="https://ferremas.com/wp-content/uploads/2023/04/Logoblanco.png" width="100px" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="{% url 'index' %}">Inicio</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="{% url 'catalogo' %}">Catalogo</a>
+        </li>
+        {% if user.is_authenticated %}
+          {% if user.is_staff %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              @{{user.username}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'crud' %}">Panel de administración</a>
+              <a class="dropdown-item" href="{% url 'salir' %}">Cerrar sesión</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              @{{user.username}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'salir' %}">Cerrar sesión</a>
+            </div>
+          </li>
+          {% endif %}
+        {% else %}
+        <a href="{% url 'login'%}" class="btn btn-danger">Iniciar sesion</a>
+        {% endif %}
+      </ul>
+      <a class="navbar-brand" href="{% url 'carrito' %}">
+        <i class="bx bxl-shopify" style="color: #ffffff; font-size: 38px"></i>
+      </a>
+    </div>
+  </nav>
+    <br>
+      <h2 style="text-align: center;">Mi Carrito</h2>
+
+      {% if carrito_items %}
+      <div class="container my-4">
+          <div class="row">
+              <!-- Columna Izquierda - Lista de Productos -->
+              <div class="col-md-8">
+                  <div class="card mb-3">
+                      <div class="card-header bg-white">
+                          <h5 class="mb-0">Cesta de la compra ({{ carrito_items|length }})</h5>  <!-- Cambiado aquí -->
+                      </div>
+                      <div class="card-body">
+                          {% for item in carrito_items %}
+                              <div class="row mb-3 align-items-center">
+                                  <div class="col-2">
+                                      {% if item.producto.imagen %}
+                                          <img src="{{ item.producto.imagen.url }}" class="img-fluid" alt="{{ item.producto.nombre }}">
+                                      {% endif %}
+                                  </div>
+                                  <div class="col-6">
+                                      <h6 class="mb-0">{{ item.producto.nombre }}</h6>
+                                  </div>
+                                  <div class="col-2 text-center">
+                                      <form action="{% url 'update_carrito' item.producto.id %}" method="post">
+                                          {% csrf_token %}
+                                          <div class="input-group">
+                                              <button type="submit" name="change" value="-1" class="btn btn-outline-secondary btn-sm">-</button>
+                                              <input type="text" class="form-control text-center" value="{{ item.cantidad }}" readonly>
+                                              <button type="submit" name="change" value="1" class="btn btn-outline-secondary btn-sm">+</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                                  <div class="col-2 text-end">
+                                      <strong>${{ item.producto.precio }}</strong>
+                                  </div>
+                              </div>
+                              {% if not forloop.last %}
+                                  <hr>
+                              {% endif %}
+                          {% endfor %}
+                      </div>
+                  </div>
+              </div>
+      
+              <!-- Columna Derecha - Resumen -->
+              <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Resumen</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <strong>${{ total }}</strong>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span>Total estimado</span>
+                            <strong class="text-danger">${{ total }}</strong>
+                        </div>
+                        <div class="d-grid gap-2 mt-3">
+                            <form action="{% url 'iniciar_pago' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="total" value="{{ total }}">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    Pagar ({{ carrito_items|length }})
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+      {% else %}
+      <div class="container my-4">
+          <div class="card">
+              <div class="card-body text-center">
+                  <h5 class="mb-3">Tu carrito está vacío</h5>
+                  <p class="mb-0">¡Agrega algunos productos para comenzar!</p>
+              </div>
+          </div>
+      </div>
+      {% endif %}
+
+
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

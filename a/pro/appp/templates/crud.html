@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de admistración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="https://ferremas.com/wp-content/uploads/2023/04/Logoblanco.png">
+    <!--ICONS DE LA PAGINA-->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #007bff">
+      <!-- Azul -->
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img
+          src="https://ferremas.com/wp-content/uploads/2023/04/Logoblanco.png"
+          width="100px"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item active">
+            <a class="nav-link text-white" href="{% url 'index' %}">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Productos
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'agregar' %}"
+                >Agregar Producto</a>
+            </div>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            > @{{user.username}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'salir' %}"
+                >Cerrar sesión</a>
+            </div>
+          </li>
+          {% else %}
+          <a href="" class="btn btn-danger">Iniciar sesion</a>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Buscar Productos de Construcción</h1>
+      <!-- Formulario de búsqueda -->
+      <form method="GET" class="mb-4">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Buscar productos..."
+            value="{{ query }}"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-3 mb-3">
+            <input
+              type="number"
+              name="precio_min"
+              class="form-control"
+              placeholder="Precio Mínimo"
+              value="{{ precio_min }}"
+            />
+          </div>
+          <div class="col-6 col-md-3 mb-3">
+            <input
+              type="number"
+              name="precio_max"
+              class="form-control"
+              placeholder="Precio Máximo"
+              value="{{ precio_max }}"
+            />
+          </div>
+          <div class="col-6 col-md-3 mb-3">
+            <input
+              type="number"
+              name="stock_min"
+              class="form-control"
+              placeholder="Stock Mínimo"
+              value="{{ stock_min }}"
+            />
+          </div>
+          <div class="col-6 col-md-3 mb-3">
+            <input
+              type="number"
+              name="product_id"
+              class="form-control"
+              placeholder="ID del Producto"
+              value="{{ product_id }}"
+            />
+          </div>
+        </div>
+      </form>
+      <!-- Mostrar productos solo si hay resultados de búsqueda -->
+      {% if productos %}
+      <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Material/Voltaje</th>
+            <th>Eliminar</th>
+            <th>Editar</th> <!-- Nueva columna para editar -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for producto in productos %}
+          <tr>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>
+              {% if producto.categoria == 'AUTOMATICO' %}
+                {{ producto.voltaje }}V
+              {% else %}
+                {{ producto.material }}
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'del_producto' producto.id %}">
+                <i class="bx bx-trash" style="color:#ff0202; font-size:30px"></i>
+              </a>
+            </td>
+            <td>
+              <button
+                class="btn btn-warning"
+                data-toggle="modal"
+                data-target="#editModal-{{ producto.id }}"
+              >
+                <i class="bx bx-edit" style="color:#d0ff00; font-size:30px"></i>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% for producto in productos %}
+<div
+  class="modal fade"
+  id="editModal-{{ producto.id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModalLabel-{{ producto.id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel-{{ producto.id }}">
+          Editar Producto: {{ producto.nombre }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'editar_producto' producto.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nombre-{{ producto.id }}">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre-{{ producto.id }}"
+              name="nombre"
+              value="{{ producto.nombre }}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="descripcion-{{ producto.id }}">Descripción</label>
+            <textarea
+              class="form-control"
+              id="descripcion-{{ producto.id }}"
+              name="descripcion"
+            >{{ producto.descripcion }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="categoria-{{ producto.id }}">Categoría</label>
+            <select
+              class="form-control"
+              id="categoria-{{ producto.id }}"
+              name="categoria"
+            >
+              <option value="AUTOMATICO" {% if producto.categoria == "AUTOMATICO" %}selected{% endif %}>Automático</option>
+              <option value="MANUAL" {% if producto.categoria == "MANUAL" %}selected{% endif %}>Manual</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="precio-{{ producto.id }}">Precio</label>
+            <input
+              type="number"
+              step="0.01"
+              class="form-control"
+              id="precio-{{ producto.id }}"
+              name="precio"
+              value="{{ producto.precio }}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="stock-{{ producto.id }}">Stock</label>
+            <input
+              type="number"
+              class="form-control"
+              id="stock-{{ producto.id }}"
+              name="stock"
+              value="{{ producto.stock }}"
+            />
+          </div>
+          {% if producto.categoria == 'AUTOMATICO' %}
+          <div class="form-group">
+            <label for="voltaje-{{ producto.id }}">Voltaje</label>
+            <input
+              type="number"
+              class="form-control"
+              id="voltaje-{{ producto.id }}"
+              name="voltaje"
+              value="{{ producto.voltaje }}"
+            />
+          </div>
+          {% else %}
+          <div class="form-group">
+            <label for="material-{{ producto.id }}">Material</label>
+            <input
+              type="text"
+              class="form-control"
+              id="material-{{ producto.id }}"
+              name="material"
+              value="{{ producto.material }}"
+            />
+          </div>
+          {% endif %}
+          <div class="form-group">
+            <label for="imagen-{{ producto.id }}">Imagen</label>
+            <input
+              type="file"
+              class="form-control"
+              id="imagen-{{ producto.id }}"
+              name="imagen"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cerrar
+          </button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+      {% else %}
+      <div class="alert alert-info text-center">
+        Ingresa algún criterio de búsqueda para mostrar productos.
+      </div>
+      {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

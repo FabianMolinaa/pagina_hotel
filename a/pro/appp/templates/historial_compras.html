@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-6">Historial de Compras</h1>
+        
+        {% if page_obj %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2">Orden de Compra</th>
+                            <th class="px-4 py-2">Fecha</th>
+                            <th class="px-4 py-2">Total</th>
+                            <th class="px-4 py-2">Estado</th>
+                            <th class="px-4 py-2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for compra in page_obj %}
+                        <tr class="border-t">
+                            <td class="px-4 py-2">{{ compra.orden_compra }}</td>
+                            <td class="px-4 py-2">{{ compra.fecha_compra|date:"d/m/Y H:i" }}</td>
+                            <td class="px-4 py-2">${{ compra.total }}</td>
+                            <td class="px-4 py-2">
+                                <span class="px-2 py-1 rounded-full text-sm
+                                    {% if compra.estado == 'COMPLETADO' %}bg-green-100 text-green-800
+                                    {% elif compra.estado == 'PENDIENTE' %}bg-yellow-100 text-yellow-800
+                                    {% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ compra.estado }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2">
+                                <a href="{% url 'detalle_compra' compra.id %}" 
+                                   class="text-blue-600 hover:text-blue-800">
+                                    Ver Detalle
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            
+            <!-- Paginación -->
+            {% if page_obj.has_other_pages %}
+            <div class="flex justify-center space-x-2 mt-6">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" 
+                       class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                        Anterior
+                    </a>
+                {% endif %}
+                
+                <span class="px-3 py-1">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}"
+                       class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                        Siguiente
+                    </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% else %}
+            <p class="text-gray-600">No hay compras registradas.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

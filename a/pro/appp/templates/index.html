@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ferramas</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--LOGO DE LA PAGINA-->
+    <link
+      rel="website icon"
+      type="png"
+      href="https://ferremas.com/wp-content/uploads/2023/04/Logoblanco.png"
+    />
+    <!--ICONS DE LA PAGINA-->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #007bff">
+      <!-- logo -->
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="https://ferremas.com/wp-content/uploads/2023/04/Logoblanco.png" width="100px" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item active">
+            <a class="nav-link text-white" href="{% url 'index' %}">Inicio</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-white" href="{% url 'catalogo' %}">Catalogo</a>
+          </li>
+          {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @{{user.username}}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'crud' %}">Panel de administración</a>
+                <a class="dropdown-item" href="{% url 'salir' %}">Cerrar sesión</a>
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @{{user.username}}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'salir' %}">Cerrar sesión</a>
+              </div>
+            </li>
+            {% endif %}
+          {% else %}
+          <a href="{% url 'login'%}" class="btn btn-danger">Iniciar sesion</a>
+          {% endif %}
+        </ul>
+        <a class="navbar-brand" href="{% url 'carrito' %}">
+          <i class="bx bxl-shopify" style="color: #ffffff; font-size: 38px"></i>
+        </a>
+      </div>
+    </nav>
+    <div id="carouselExampleIndicators" class="carousel slide">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd5YGQ5WoW-EUgtSmZN_RfljdwGyQU06pLiw&s" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="https://ferremas.com/wp-content/uploads/2023/09/testimonio-1536x599.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="..." class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
